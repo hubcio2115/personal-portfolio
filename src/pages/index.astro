@@ -1,81 +1,125 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import { PROMPT, CARET_SYMBOL } from '../lib/constants';
 ---
 
 <Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
+  <main class="min-h-screen flex flex-col p-1">
+    <h1>Title</h1>
+
+    <div id="history" class="prose"></div>
+
+    <div class="flex gap-x-2.5 pr-5 flex-1">
+      <span>{PROMPT}</span>
+
+      <div class="flex-1 flex">
+        <textarea
+          name="input"
+          id="input-area"
+          class="outline-none focus:placeholder:opacity-100 caret-transparent"
+          autofocus></textarea>
+
+        <p id="prediction" class="absolute opacity-25"></p>
+        <span
+          id="caret"
+          class="absolute animate-pulse font-bold text-orange-400 opacity-50"
+          >{CARET_SYMBOL}</span
+        >
+      </div>
+    </div>
+  </main>
 </Layout>
 
-<style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
-</style>
+<script>
+  import { CARET_SYMBOL, COMMANDS, PROMPT } from '../lib/constants';
+  import { clearTextArea } from '../lib/utils';
+
+  const input = document.getElementById('input-area') as HTMLTextAreaElement;
+  const history = document.getElementById('history') as HTMLDivElement;
+  const predictionBox = document.getElementById(
+    'prediction',
+  ) as HTMLParagraphElement;
+  const caret = document.getElementById('caret') as HTMLSpanElement;
+
+  function predictCommand(value: string) {
+    return COMMANDS.find((command) => command.startsWith(value)) ?? '';
+  }
+
+  function executeCommand(command: string) {
+    switch (command) {
+      case 'whois':
+        return `Hey, I'm Hubert! 👋🏻
+			I'm a software developer, CS student, who builds interesting things on the web, like this one.`;
+      case 'video':
+        return 'I am a video game enthusiast, I play a lot of <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege">Rainbow Six Siege</a> and <a href="https://www.ubisoft.com/en-us/game/for-honor">For Honor</a>.';
+      case 'projects':
+        return 'I am a software engineer, currently working at <a href="https://www.ubisoft.com/en-us/">Ubisoft</a>.';
+      case 'social':
+        return 'I am a software engineer, currently working at <a href="https://www.ubisoft.com/en-us/">Ubisoft</a>.';
+      case 'secret':
+        return 'I am a software engineer, currently working at <a href="https://www.ubisoft.com/en-us/">Ubisoft</a>.';
+      case '':
+        return '';
+      default:
+        return `zsh: command not found: ${command}`;
+    }
+  }
+
+  function printOutput(command: string) {
+    const result = executeCommand(command.trim());
+
+    const newOutput = document.createElement('div');
+    const prompt = document.createElement('span');
+    prompt.innerText = `${PROMPT} ${command.trim()}`;
+
+    newOutput.appendChild(prompt);
+
+    const resultParagraph = document.createElement('p');
+    resultParagraph.innerHTML = result;
+
+    newOutput.appendChild(resultParagraph);
+
+    history.appendChild(newOutput);
+  }
+
+  function moveCaret(caret: HTMLSpanElement, input: string) {
+    caret.innerHTML = `${'&nbsp;'.repeat(input.length)}${CARET_SYMBOL}`;
+  }
+
+  input.onkeydown = (e) => {
+    switch (e.key) {
+      case 'Enter':
+        e.preventDefault();
+
+        if (input.value.trim() === 'clear') history.innerHTML = '';
+        else printOutput(input.value.trim());
+
+        clearTextArea(input);
+        predictionBox.innerText = '';
+        moveCaret(caret, '');
+        break;
+
+      case 'Tab':
+        e.preventDefault();
+
+        if (predictionBox.innerText.length !== 0)
+          input.value = predictionBox.innerText;
+
+        moveCaret(caret, input.value);
+        break;
+    }
+  };
+
+  input.oninput = (e) => {
+    const isTextAreaEmpty = input.value.length <= 1;
+
+    if (isTextAreaEmpty) predictionBox.innerText = '';
+    else predictionBox.innerText = predictCommand(input.value);
+
+    caret.innerHTML = `${'&nbsp;'.repeat(input.value.length)}${CARET_SYMBOL}`;
+  };
+
+  input.onblur = (e) => {
+    input.focus();
+  };
+</script>
