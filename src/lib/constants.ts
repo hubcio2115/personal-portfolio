@@ -7,6 +7,7 @@ export const COMMANDS = [
   'github',
   'help',
 ] as const;
+export type Command = (typeof COMMANDS)[number] | (string & {});
 
 export const ASCII_ART = ` _   _       _               _     _  __                  _     _    _ 
 | | | |_   _| |__   ___ _ __| |_  | |/ /_____      ____ _| |___| | _(_)
