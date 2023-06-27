@@ -1,13 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { PROMPT, CARET_SYMBOL } from '../lib/constants';
+import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
 ---
 
 <Layout title="Welcome to Astro.">
-  <main class="min-h-screen flex flex-col p-1">
-    <h1>Title</h1>
+  <main class="min-h-screen flex flex-col p-5">
+    <div>
+      <pre class="leading-tight mb-5">{ASCII_ART}</pre>
 
-    <div id="history" class="prose"></div>
+      <p>Welcome to my interactive web terminal.</p>
+
+      <p>For a list of available commands, type 'help'.</p>
+
+      <br />
+
+      <p>
+        You can use autocomplete by pressing 'Tab' when a suggestion appears.
+      </p>
+    </div>
+    <br />
+
+    <div id="history" class="prose max-w-2xl flex flex-col"></div>
 
     <div class="flex gap-x-2.5 pr-5 flex-1">
       <span>{PROMPT}</span>
@@ -16,13 +29,14 @@ import { PROMPT, CARET_SYMBOL } from '../lib/constants';
         <textarea
           name="input"
           id="input-area"
-          class="outline-none focus:placeholder:opacity-100 caret-transparent"
+          class="outline-none focus:placeholder:opacity-100 caret-transparent flex-1"
           autofocus></textarea>
 
         <p id="prediction" class="absolute opacity-25"></p>
+
         <span
           id="caret"
-          class="absolute animate-pulse font-bold text-orange-400 opacity-50"
+          class="absolute animate-pulse font-bold text-orange-400 opacity-70"
           >{CARET_SYMBOL}</span
         >
       </div>
@@ -31,7 +45,18 @@ import { PROMPT, CARET_SYMBOL } from '../lib/constants';
 </Layout>
 
 <script>
-  import { CARET_SYMBOL, COMMANDS, PROMPT } from '../lib/constants';
+  import {
+    COMMANDS,
+    PROMPT,
+    WHOIS_MESSAGE,
+    HELP_MESSAGE,
+    WHOAMI_MESSAGE,
+    PROJECTS_MESSAGE,
+    COMMAND_NOT_FOUND_MESSAGE,
+    SOCIAL_MESSAGE,
+    GITHUB_MESSAGE,
+    type Command,
+  } from '../lib/constants';
   import { clearTextArea } from '../lib/utils';
 
   const input = document.getElementById('input-area') as HTMLTextAreaElement;
@@ -41,31 +66,32 @@ import { PROMPT, CARET_SYMBOL } from '../lib/constants';
   ) as HTMLParagraphElement;
   const caret = document.getElementById('caret') as HTMLSpanElement;
 
-  function predictCommand(value: string) {
+  function predictCommand(value: string): Command {
     return COMMANDS.find((command) => command.startsWith(value)) ?? '';
   }
 
-  function executeCommand(command: string) {
+  function executeCommand(command: Command) {
     switch (command) {
       case 'whois':
-        return `Hey, I'm Hubert! 👋🏻
-			I'm a software developer, CS student, who builds interesting things on the web, like this one.`;
-      case 'video':
-        return 'I am a video game enthusiast, I play a lot of <a href="https://www.ubisoft.com/en-us/game/rainbow-six/siege">Rainbow Six Siege</a> and <a href="https://www.ubisoft.com/en-us/game/for-honor">For Honor</a>.';
+        return WHOIS_MESSAGE;
+      case 'whoami':
+        return WHOAMI_MESSAGE;
       case 'projects':
-        return 'I am a software engineer, currently working at <a href="https://www.ubisoft.com/en-us/">Ubisoft</a>.';
+        return PROJECTS_MESSAGE;
       case 'social':
-        return 'I am a software engineer, currently working at <a href="https://www.ubisoft.com/en-us/">Ubisoft</a>.';
-      case 'secret':
-        return 'I am a software engineer, currently working at <a href="https://www.ubisoft.com/en-us/">Ubisoft</a>.';
+        return SOCIAL_MESSAGE;
+      case 'help':
+        return HELP_MESSAGE;
+      case 'github':
+        return GITHUB_MESSAGE;
       case '':
         return '';
       default:
-        return `zsh: command not found: ${command}`;
+        return COMMAND_NOT_FOUND_MESSAGE + ' ' + command;
     }
   }
 
-  function printOutput(command: string) {
+  function printOutput(command: Command) {
     const result = executeCommand(command.trim());
 
     const newOutput = document.createElement('div');
@@ -75,16 +101,28 @@ import { PROMPT, CARET_SYMBOL } from '../lib/constants';
     newOutput.appendChild(prompt);
 
     const resultParagraph = document.createElement('p');
-    resultParagraph.innerHTML = result;
+    resultParagraph.innerHTML += '<pre>' + result + '</pre>';
 
+    prompt.style.flex = '1 1 0%';
+    prompt.style.marginBottom = '0.75rem';
+
+    newOutput.style.display = 'flex';
+    newOutput.style.flexDirection = 'column';
+    newOutput.style.flex = '1 1 0%';
+    newOutput.style.marginBottom = '0.75rem';
     newOutput.appendChild(resultParagraph);
 
     history.appendChild(newOutput);
   }
 
   function moveCaret(caret: HTMLSpanElement, input: string) {
-    caret.innerHTML = `${'&nbsp;'.repeat(input.length)}${CARET_SYMBOL}`;
+    caret.style.marginLeft = `${0.6 * (input.length % 40)}rem`;
   }
+
+  input.onbeforeinput = (e) => {
+    // Prevent from inserting more than 39 characters into the command prompt
+    if (input.value.length + (e.data?.length ?? 0) >= 39) e.preventDefault();
+  };
 
   input.onkeydown = (e) => {
     switch (e.key) {
@@ -97,6 +135,8 @@ import { PROMPT, CARET_SYMBOL } from '../lib/constants';
         clearTextArea(input);
         predictionBox.innerText = '';
         moveCaret(caret, '');
+
+        window.scrollTo(0, document.body.scrollHeight);
         break;
 
       case 'Tab':
@@ -116,10 +156,6 @@ import { PROMPT, CARET_SYMBOL } from '../lib/constants';
     if (isTextAreaEmpty) predictionBox.innerText = '';
     else predictionBox.innerText = predictCommand(input.value);
 
-    caret.innerHTML = `${'&nbsp;'.repeat(input.value.length)}${CARET_SYMBOL}`;
-  };
-
-  input.onblur = (e) => {
-    input.focus();
+    moveCaret(caret, input.value);
   };
 </script>
