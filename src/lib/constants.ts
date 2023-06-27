@@ -9,6 +9,8 @@ export const COMMANDS = [
 ] as const;
 export type Command = (typeof COMMANDS)[number] | (string & {});
 
+export const PROMPT = 'visitor@macbook-pro ~ %';
+
 export const ASCII_ART = ` _   _       _               _     _  __                  _     _    _ 
 | | | |_   _| |__   ___ _ __| |_  | |/ /_____      ____ _| |___| | _(_)
 | |_| | | | | '_ \\ / _ \\ '__| __| | ' // _ \\ \\ /\\ / / _\` | / __| |/ / |
