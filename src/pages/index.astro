@@ -29,8 +29,9 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
         <textarea
           name="input"
           id="input-area"
-          class="outline-none focus:placeholder:opacity-100 caret-transparent flex-1 bg-light-body text-light-text dark:bg-dark-body dark:text-dark-text"
-          autofocus></textarea>
+          class="outline-none caret-transparent flex-1 bg-light-body text-light-text dark:bg-dark-body dark:text-dark-text"
+          autofocus
+          autocomplete="off"></textarea>
 
         <p id="prediction" class="absolute opacity-25"></p>
 
@@ -92,11 +93,11 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
   }
 
   function printOutput(command: Command) {
-    const result = executeCommand(command.trim());
+    const result = executeCommand(command);
 
     const newOutput = document.createElement('div');
     const prompt = document.createElement('span');
-    prompt.innerText = `${PROMPT} ${command.trim()}`;
+    prompt.innerText = `${PROMPT} ${command}`;
 
     newOutput.appendChild(prompt);
 
@@ -129,8 +130,9 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
       case 'Enter':
         e.preventDefault();
 
-        if (input.value.trim() === 'clear') history.innerHTML = '';
-        else printOutput(input.value.trim());
+        if (input.value.toLocaleLowerCase().trim() === 'clear')
+          history.innerHTML = '';
+        else printOutput(input.value.trim().toLowerCase());
 
         clearTextArea(input);
         predictionBox.innerText = '';
@@ -154,7 +156,10 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
     const isTextAreaEmpty = input.value.length <= 1;
 
     if (isTextAreaEmpty) predictionBox.innerText = '';
-    else predictionBox.innerText = predictCommand(input.value);
+    else
+      predictionBox.innerText = predictCommand(
+        input.value.trim().toLowerCase(),
+      );
 
     moveCaret(caret, input.value);
   };
