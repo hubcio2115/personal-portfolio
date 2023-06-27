@@ -7,6 +7,10 @@ export const COMMANDS = [
   'clear',
 ] as const;
 
-export const PROMPT = 'hubertkowalski@macbook-pro ~ %';
+export const ASCII_ART = ` _   _       _               _     _  __                  _     _    _ 
+| | | |_   _| |__   ___ _ __| |_  | |/ /_____      ____ _| |___| | _(_)
+| |_| | | | | '_ \\ / _ \\ '__| __| | ' // _ \\ \\ /\\ / / _\` | / __| |/ / |
+|  _  | |_| | |_) |  __/ |  | |_  | . \\ (_) \\ V  V / (_| | \\__ \\   <| |
+|_| |_|\\__,_|_.__/ \\___|_|   \\__| |_|\\_\\___/ \\_/\\_/ \\__,_|_|___/_|\\_\'_| ©2023`;
 
 export const CARET_SYMBOL = '█';
