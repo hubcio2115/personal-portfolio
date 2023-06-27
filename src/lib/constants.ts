@@ -1,10 +1,11 @@
 export const COMMANDS = [
   'whois',
-  'video',
+  'whoami',
   'projects',
   'social',
-  'secret',
   'clear',
+  'github',
+  'help',
 ] as const;
 
 export const ASCII_ART = ` _   _       _               _     _  __                  _     _    _ 
