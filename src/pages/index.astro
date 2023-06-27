@@ -29,14 +29,14 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
         <textarea
           name="input"
           id="input-area"
-          class="outline-none focus:placeholder:opacity-100 caret-transparent flex-1"
+          class="outline-none focus:placeholder:opacity-100 caret-transparent flex-1 bg-light-body text-light-text dark:bg-dark-body dark:text-dark-text"
           autofocus></textarea>
 
         <p id="prediction" class="absolute opacity-25"></p>
 
         <span
           id="caret"
-          class="absolute animate-pulse font-bold text-orange-400 opacity-70"
+          class="absolute animate-pulse font-bold text-light-caret dark:text-dark-caret opacity-70"
           >{CARET_SYMBOL}</span
         >
       </div>
