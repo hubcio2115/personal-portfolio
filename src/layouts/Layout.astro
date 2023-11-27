@@ -1,40 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="A terminal themed portfolio website of Hubert Kowalski"
-    />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Hubert Kowalski - Portfolio</title>
-  </head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="description"
+			content="A terminal themed portfolio website of Hubert Kowalski"
+		/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Hubert Kowalski - Portfolio</title>
+	</head>
 
-  <body
-    class="bg-light-body text-light-text dark:bg-dark-body dark:text-dark-text"
-  >
-    <slot />
-  </body>
+	<body
+		class="bg-light-body text-light-text dark:bg-dark-body dark:text-dark-text"
+	>
+		<slot />
+	</body>
 </html>
 
 <style is:global>
-  @tailwind base;
-  @layer base {
-    a {
-      @apply underline;
-    }
-  }
+	@tailwind base;
+	@layer base {
+		a {
+			@apply underline;
+		}
+	}
 
-  @tailwind components;
-  @tailwind utilities;
+	@tailwind components;
+	@tailwind utilities;
 
-  @font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
+	@font-face {
+		font-family: "JetBrainsMono";
+		src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
 </style>
