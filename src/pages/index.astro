@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '@layouts/Layout.astro';
 import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
 ---
 
@@ -152,7 +152,7 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
     }
   };
 
-  input.oninput = (e) => {
+  input.oninput = () => {
     const isTextAreaEmpty = input.value.length <= 1;
 
     if (isTextAreaEmpty) predictionBox.innerText = '';
