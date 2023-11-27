@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require('tailwindcss/defaultTheme');
+import type { Config } from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
-module.exports = {
+const config: Config = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
@@ -16,9 +17,11 @@ module.exports = {
         'light-caret': '#d65d0e',
       },
       fontFamily: {
-        sans: ['JetBrainsMono', ...defaultTheme.fontFamily.sans],
+        sans: ['JetBrainsMono', ...fontFamily.sans],
       },
     },
   },
   plugins: [],
 };
+
+export default config;
