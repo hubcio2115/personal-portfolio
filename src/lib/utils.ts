@@ -6,6 +6,18 @@ export function clearTextArea(input: HTMLTextAreaElement) {
 	input.value = "";
 }
 
+export function toggleTheme(theme: "light" | "dark"): "light" | "dark" {
+	if (theme === "dark") {
+		document.documentElement.classList.remove("dark");
+		localStorage.setItem("theme", "light");
+		return "light";
+	} else {
+		document.documentElement.classList.add("dark");
+		localStorage.setItem("theme", "dark");
+		return "dark";
+	}
+}
+
 export function parseBlogPosts(posts: CollectionEntry<"blog">[]) {
 	return posts
 		.map(

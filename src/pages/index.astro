@@ -57,7 +57,7 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 		GITHUB_MESSAGE,
 		type Command,
 	} from "../lib/constants";
-	import { clearTextArea } from "../lib/utils";
+	import { clearTextArea, toggleTheme, parseBlogPosts } from "~/lib/utils";
 
 	const input = document.getElementById("input-area") as HTMLTextAreaElement;
 	const history = document.getElementById("history") as HTMLDivElement;
@@ -65,6 +65,8 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 		"prediction",
 	) as HTMLParagraphElement;
 	const caret = document.getElementById("caret") as HTMLSpanElement;
+
+	let theme = localStorage.getItem("theme") as "light" | "dark";
 
 	function predictCommand(value: string): Command {
 		return COMMANDS.find((command) => command.startsWith(value)) ?? "";
@@ -84,6 +86,9 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 				return HELP_MESSAGE;
 			case "github":
 				return GITHUB_MESSAGE;
+			case "theme":
+				theme = toggleTheme(theme);
+				return "";
 			case "":
 				return "";
 			default:
