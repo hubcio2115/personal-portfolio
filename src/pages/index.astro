@@ -3,7 +3,7 @@ import Layout from "@layouts/Layout.astro";
 import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout>
 	<main class="flex min-h-screen flex-col p-5">
 		<div>
 			<pre class="mb-5 leading-tight">{ASCII_ART}</pre>
@@ -18,9 +18,8 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 				You can use autocomplete by pressing 'Tab' when a suggestion appears.
 			</p>
 		</div>
-		<br />
 
-		<div id="history" class="prose flex max-w-2xl flex-col"></div>
+		<div id="history" class="flex max-w-2xl flex-col"></div>
 
 		<div class="flex flex-1 gap-x-2.5 pr-5">
 			<span>{PROMPT}</span>
@@ -29,7 +28,7 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 				<textarea
 					name="input"
 					id="input-area"
-					class="flex-1 resize-none bg-light-body text-light-text caret-transparent outline-none dark:bg-dark-body dark:text-dark-text"
+					class="flex-1 resize-none bg-gruvbox-100 text-gruvbox-900 caret-transparent outline-none transition-colors duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none dark:bg-gruvbox-900 dark:text-gruvbox-100"
 					autofocus
 					autocomplete="off"></textarea>
 
@@ -37,7 +36,7 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 
 				<span
 					id="caret"
-					class="absolute animate-pulse font-bold text-light-caret opacity-70 dark:text-dark-caret"
+					class="absolute animate-pulse font-bold text-orange-600 opacity-70 dark:text-orange-500"
 					>{CARET_SYMBOL}</span
 				>
 			</div>
