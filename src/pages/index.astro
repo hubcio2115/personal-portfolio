@@ -56,15 +56,15 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 		SOCIAL_MESSAGE,
 		GITHUB_MESSAGE,
 		type Command,
-	} from "../lib/constants";
+	} from "~/lib/constants";
 	import { clearTextArea, toggleTheme, parseBlogPosts } from "~/lib/utils";
 
-	const input = document.getElementById("input-area") as HTMLTextAreaElement;
-	const history = document.getElementById("history") as HTMLDivElement;
-	const predictionBox = document.getElementById(
+	const $input = document.getElementById("input-area") as HTMLTextAreaElement;
+	const $history = document.getElementById("history") as HTMLDivElement;
+	const $predictionBox = document.getElementById(
 		"prediction",
 	) as HTMLParagraphElement;
-	const caret = document.getElementById("caret") as HTMLSpanElement;
+	const $caret = document.getElementById("caret") as HTMLSpanElement;
 
 	let theme = localStorage.getItem("theme") as "light" | "dark";
 
@@ -109,38 +109,36 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 		resultParagraph.innerHTML += "<pre>" + result + "</pre>";
 
 		prompt.style.flex = "1 1 0%";
-		prompt.style.marginBottom = "0.75rem";
 
 		newOutput.style.display = "flex";
 		newOutput.style.flexDirection = "column";
 		newOutput.style.flex = "1 1 0%";
-		newOutput.style.marginBottom = "0.75rem";
 		newOutput.appendChild(resultParagraph);
 
-		history.appendChild(newOutput);
+		$history.appendChild(newOutput);
 	}
 
 	function moveCaret(caret: HTMLSpanElement, input: string) {
 		caret.style.marginLeft = `${0.6 * (input.length % 40)}rem`;
 	}
 
-	input.onbeforeinput = (e) => {
+	$input.onbeforeinput = (e) => {
 		// Prevent from inserting more than 39 characters into the command prompt
-		if (input.value.length + (e.data?.length ?? 0) >= 39) e.preventDefault();
+		if ($input.value.length + (e.data?.length ?? 0) >= 39) e.preventDefault();
 	};
 
-	input.onkeydown = (e) => {
+	$input.onkeydown = (e) => {
 		switch (e.key) {
 			case "Enter":
 				e.preventDefault();
 
-				if (input.value.toLocaleLowerCase().trim() === "clear")
-					history.innerHTML = "";
-				else printOutput(input.value.trim().toLowerCase());
+				if ($input.value.toLocaleLowerCase().trim() === "clear")
+					$history.innerHTML = "";
+				else printOutput($input.value.trim().toLowerCase());
 
-				clearTextArea(input);
-				predictionBox.innerText = "";
-				moveCaret(caret, "");
+				clearTextArea($input);
+				$predictionBox.innerText = "";
+				moveCaret($caret, "");
 
 				window.scrollTo(0, document.body.scrollHeight);
 				break;
@@ -148,23 +146,23 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 			case "Tab":
 				e.preventDefault();
 
-				if (predictionBox.innerText.length !== 0)
-					input.value = predictionBox.innerText;
+				if ($predictionBox.innerText.length !== 0)
+					$input.value = $predictionBox.innerText;
 
-				moveCaret(caret, input.value);
+				moveCaret($caret, $input.value);
 				break;
 		}
 	};
 
-	input.oninput = () => {
-		const isTextAreaEmpty = input.value.length <= 1;
+	$input.oninput = () => {
+		const isTextAreaEmpty = $input.value.length <= 1;
 
-		if (isTextAreaEmpty) predictionBox.innerText = "";
+		if (isTextAreaEmpty) $predictionBox.innerText = "";
 		else
-			predictionBox.innerText = predictCommand(
-				input.value.trim().toLowerCase(),
+			$predictionBox.innerText = predictCommand(
+				$input.value.trim().toLowerCase(),
 			);
 
-		moveCaret(caret, input.value);
+		moveCaret($caret, $input.value);
 	};
 </script>
