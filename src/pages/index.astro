@@ -45,6 +45,7 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 </Layout>
 
 <script>
+	import { getCollection } from "astro:content";
 	import {
 		COMMANDS,
 		PROMPT,
@@ -67,6 +68,7 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 	const $caret = document.getElementById("caret") as HTMLSpanElement;
 
 	let theme = localStorage.getItem("theme") as "light" | "dark";
+	const posts = parseBlogPosts(await getCollection("blog"));
 
 	function predictCommand(value: string): Command {
 		return COMMANDS.find((command) => command.startsWith(value)) ?? "";
@@ -89,6 +91,8 @@ import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 			case "theme":
 				theme = toggleTheme(theme);
 				return "";
+			case "blog":
+				return posts;
 			case "":
 				return "";
 			default:
