@@ -1,0 +1,27 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+	const blogEntries = await getCollection("blog");
+
+	return blogEntries.map((post) => ({
+		params: {
+			id: post.id,
+		},
+		props: {
+			post,
+		},
+	}));
+}
+
+const { id } = Astro.params;
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={id}>
+	<div class="prose prose-gruvbox dark:prose-invert">
+		<Content />
+	</div>
+</Layout>
