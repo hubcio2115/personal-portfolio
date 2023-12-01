@@ -61,7 +61,8 @@ When Java came to the world it was in times of 1990 it came as a welcome improve
 
 so it got people's attention.
 
-- On the surface level it was less cryptic in comparison to C APIs. In C you have `ioctl` and other horrible abbreviations while in Java you have `FileInputSteam` _(but after that, they went in another horrible direction and we ended up with `TransactionAwarePersistenceManagerFactoryProxy.PersistenceManagerFactoryInvocationHandler`)_.
+- On the surface level it was less cryptic in comparison to C APIs. In C you have `ioctl` and other horrible abbreviations while in Java you have `FileInputSteam` _(but after that, they went in another horrible direction and we ended up with `TransactionAwarePersistenceManagerFactoryProxy.
+PersistenceManagerFactoryInvocationHandler`)_.
 - It has curly braces - it's important ok
 - It's compiled to `bytecode` - then it mattered, now that tooling for other languages improved it's something not worth considering
 - It has namespaces - no more importing header files!
