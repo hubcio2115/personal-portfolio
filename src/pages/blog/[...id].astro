@@ -21,7 +21,16 @@ const { Content } = await post.render();
 ---
 
 <Layout title={id}>
-	<div class="prose prose-gruvbox dark:prose-invert">
+	<div
+		class="prose prose-gruvbox mx-auto max-w-[650px] pb-10 pt-5 dark:prose-invert"
+	>
+		<h1>{post.data.title}</h1>
+
+		<p>published: {post.data.publishDate.toLocaleDateString()}</p>
+		<p>reading time: around {post.data.readingTime} minutes</p>
+
+		<hr />
+
 		<Content />
 	</div>
 </Layout>
