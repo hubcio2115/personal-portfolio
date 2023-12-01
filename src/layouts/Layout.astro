@@ -10,14 +10,17 @@ const { title } = Astro.props;
 			name="description"
 			content="A terminal themed portfolio website of Hubert Kowalski"
 		/>
-		<meta name="viewport" content="width=device-width" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale-1"
+		/>
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title ?? "Hubert Kowalski - Portfolio"}</title>
 	</head>
 
 	<body
-		class="bg-gruvbox-100 text-gruvbox-900 transition-colors duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none dark:bg-gruvbox-900 dark:text-gruvbox-100"
+		class="w-screen bg-gruvbox-100 text-gruvbox-900 transition-colors duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none dark:bg-gruvbox-900 dark:text-gruvbox-100"
 	>
 		<slot />
 	</body>
