@@ -23,7 +23,7 @@ const { title } = Astro.props;
 	</body>
 </html>
 
-<style is:global>
+<style lang="scss" is:global>
 	@tailwind base;
 	@layer base {
 		a {
@@ -34,12 +34,33 @@ const { title } = Astro.props;
 	@tailwind components;
 	@tailwind utilities;
 
-	@font-face {
-		font-family: "JetBrainsMono";
-		src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
-		font-weight: normal;
-		font-style: normal;
-		font-display: swap;
+	$font-weights: (
+		"ExtraBold" 900,
+		"Bold" 800,
+		"SemiBold" 700,
+		"Medium" 600,
+		"Regular" 500,
+		"Light" 400,
+		"ExtraLight" 300,
+		"Thin" 200
+	);
+
+	@each $weight, $value in $font-weights {
+		@font-face {
+			font-family: "JetBrainsMono";
+			src: url("/fonts/JetBrainsMono-#{$weight}.woff2") format("woff2");
+			font-weight: #{$value};
+			font-style: normal;
+		}
+	}
+
+	@each $weight, $value in $font-weights {
+		@font-face {
+			font-family: "JetBrainsMonoItalic";
+			src: url("/fonts/JetBrainsMono-#{$weight}Italic.woff2") format("woff2");
+			font-weight: #{$value};
+			font-style: italic;
+		}
 	}
 </style>
 
