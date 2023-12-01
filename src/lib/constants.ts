@@ -1,15 +1,17 @@
 export const COMMANDS = [
-  'whois',
-  'whoami',
-  'projects',
-  'social',
-  'clear',
-  'github',
-  'help',
+	"whois",
+	"whoami",
+	"projects",
+	"social",
+	"clear",
+	"github",
+	"blog",
+	"theme",
+	"help",
 ] as const;
 export type Command = (typeof COMMANDS)[number] | (string & {});
 
-export const PROMPT = 'visitor@macbook-pro ~ %';
+export const PROMPT = "guest@macbook-pro ~ %";
 
 export const ASCII_ART = ` _   _       _               _     _  __                  _     _    _ 
 | | | |_   _| |__   ___ _ __| |_  | |/ /_____      ____ _| |___| | _(_)
@@ -17,7 +19,7 @@ export const ASCII_ART = ` _   _       _               _     _  __              
 |  _  | |_| | |_) |  __/ |  | |_  | . \\ (_) \\ V  V / (_| | \\__ \\   <| |
 |_| |_|\\__,_|_.__/ \\___|_|   \\__| |_|\\_\\___/ \\_/\\_/ \\__,_|_|___/_|\\_\'_| ©2023`;
 
-export const CARET_SYMBOL = '█';
+export const CARET_SYMBOL = "█";
 
 export const WHOIS_MESSAGE = `Hey, I'm Hubert! 👋🏻
 I'm a software developer and uni CS student, who likes to build engaging websites like this one
@@ -50,9 +52,11 @@ whoami - Who are you?
 projects - View my projects
 social - View my social media accounts
 clear - Clears the terminal
-help - You already know what it does
-github - Get the link to this site's project on github`;
+github - Get the link to this site's project on github
+blog - List most recent of my blog posts
+theme - Toggle the theme of the app
+help - You already know what it does`;
 
 export const GITHUB_MESSAGE = `<a href="https://github.com/hubcio2115/personal-portfolio/" target="_blank">link</a>`;
 
-export const COMMAND_NOT_FOUND_MESSAGE = 'zsh: command not found:';
+export const COMMAND_NOT_FOUND_MESSAGE = "zsh: command not found:";

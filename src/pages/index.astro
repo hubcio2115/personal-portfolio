@@ -1,166 +1,172 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { PROMPT, CARET_SYMBOL, ASCII_ART } from '../lib/constants';
+import Layout from "@layouts/Layout.astro";
+import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
 ---
 
-<Layout title="Welcome to Astro.">
-  <main class="min-h-screen flex flex-col p-5">
-    <div>
-      <pre class="leading-tight mb-5">{ASCII_ART}</pre>
+<Layout>
+	<main class="flex min-h-screen flex-col p-5">
+		<div>
+			<pre class="mb-5 leading-tight">{ASCII_ART}</pre>
 
-      <p>Welcome to my interactive web terminal.</p>
+			<p>Welcome to my interactive web terminal.</p>
 
-      <p>For a list of available commands, type 'help'.</p>
+			<p>For a list of available commands, type 'help'.</p>
 
-      <br />
+			<br />
 
-      <p>
-        You can use autocomplete by pressing 'Tab' when a suggestion appears.
-      </p>
-    </div>
-    <br />
+			<p>
+				You can use autocomplete by pressing 'Tab' when a suggestion appears.
+			</p>
+		</div>
 
-    <div id="history" class="prose max-w-2xl flex flex-col"></div>
+		<div id="history" class="flex max-w-2xl flex-col"></div>
 
-    <div class="flex gap-x-2.5 pr-5 flex-1">
-      <span>{PROMPT}</span>
+		<div class="flex flex-1 gap-x-2.5 pr-5">
+			<span>{PROMPT}</span>
 
-      <div class="flex-1 flex">
-        <textarea
-          name="input"
-          id="input-area"
-          class="outline-none caret-transparent flex-1 bg-light-body text-light-text dark:bg-dark-body dark:text-dark-text resize-none"
-          autofocus
-          autocomplete="off"></textarea>
+			<div class="flex flex-1">
+				<textarea
+					name="input"
+					id="input-area"
+					class="flex-1 resize-none bg-gruvbox-100 text-gruvbox-900 caret-transparent outline-none transition-colors duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none dark:bg-gruvbox-900 dark:text-gruvbox-100"
+					autofocus
+					autocomplete="off"></textarea>
 
-        <p id="prediction" class="absolute opacity-25"></p>
+				<p id="prediction" class="absolute opacity-25"></p>
 
-        <span
-          id="caret"
-          class="absolute animate-pulse font-bold text-light-caret dark:text-dark-caret opacity-70"
-          >{CARET_SYMBOL}</span
-        >
-      </div>
-    </div>
-  </main>
+				<span
+					id="caret"
+					class="absolute animate-pulse font-bold text-orange-600 opacity-70 dark:text-orange-500"
+					>{CARET_SYMBOL}</span
+				>
+			</div>
+		</div>
+	</main>
 </Layout>
 
 <script>
-  import {
-    COMMANDS,
-    PROMPT,
-    WHOIS_MESSAGE,
-    HELP_MESSAGE,
-    WHOAMI_MESSAGE,
-    PROJECTS_MESSAGE,
-    COMMAND_NOT_FOUND_MESSAGE,
-    SOCIAL_MESSAGE,
-    GITHUB_MESSAGE,
-    type Command,
-  } from '../lib/constants';
-  import { clearTextArea } from '../lib/utils';
+	import { getCollection } from "astro:content";
+	import {
+		COMMANDS,
+		PROMPT,
+		WHOIS_MESSAGE,
+		HELP_MESSAGE,
+		WHOAMI_MESSAGE,
+		PROJECTS_MESSAGE,
+		COMMAND_NOT_FOUND_MESSAGE,
+		SOCIAL_MESSAGE,
+		GITHUB_MESSAGE,
+		type Command,
+	} from "~/lib/constants";
+	import { clearTextArea, toggleTheme, parseBlogPosts } from "~/lib/utils";
 
-  const input = document.getElementById('input-area') as HTMLTextAreaElement;
-  const history = document.getElementById('history') as HTMLDivElement;
-  const predictionBox = document.getElementById(
-    'prediction',
-  ) as HTMLParagraphElement;
-  const caret = document.getElementById('caret') as HTMLSpanElement;
+	const $input = document.getElementById("input-area") as HTMLTextAreaElement;
+	const $history = document.getElementById("history") as HTMLDivElement;
+	const $predictionBox = document.getElementById(
+		"prediction",
+	) as HTMLParagraphElement;
+	const $caret = document.getElementById("caret") as HTMLSpanElement;
 
-  function predictCommand(value: string): Command {
-    return COMMANDS.find((command) => command.startsWith(value)) ?? '';
-  }
+	let theme = localStorage.getItem("theme") as "light" | "dark";
+	const posts = parseBlogPosts(await getCollection("blog"));
 
-  function executeCommand(command: Command) {
-    switch (command) {
-      case 'whois':
-        return WHOIS_MESSAGE;
-      case 'whoami':
-        return WHOAMI_MESSAGE;
-      case 'projects':
-        return PROJECTS_MESSAGE;
-      case 'social':
-        return SOCIAL_MESSAGE;
-      case 'help':
-        return HELP_MESSAGE;
-      case 'github':
-        return GITHUB_MESSAGE;
-      case '':
-        return '';
-      default:
-        return COMMAND_NOT_FOUND_MESSAGE + ' ' + command;
-    }
-  }
+	function predictCommand(value: string): Command {
+		return COMMANDS.find((command) => command.startsWith(value)) ?? "";
+	}
 
-  function printOutput(command: Command) {
-    const result = executeCommand(command);
+	function executeCommand(command: Command) {
+		switch (command) {
+			case "whois":
+				return WHOIS_MESSAGE;
+			case "whoami":
+				return WHOAMI_MESSAGE;
+			case "projects":
+				return PROJECTS_MESSAGE;
+			case "social":
+				return SOCIAL_MESSAGE;
+			case "help":
+				return HELP_MESSAGE;
+			case "github":
+				return GITHUB_MESSAGE;
+			case "theme":
+				theme = toggleTheme(theme);
+				return "";
+			case "blog":
+				return posts;
+			case "":
+				return "";
+			default:
+				return COMMAND_NOT_FOUND_MESSAGE + " " + command;
+		}
+	}
 
-    const newOutput = document.createElement('div');
-    const prompt = document.createElement('span');
-    prompt.innerText = `${PROMPT} ${command}`;
+	function printOutput(command: Command) {
+		const result = executeCommand(command);
 
-    newOutput.appendChild(prompt);
+		const newOutput = document.createElement("div");
+		const prompt = document.createElement("span");
+		prompt.innerText = `${PROMPT} ${command}`;
 
-    const resultParagraph = document.createElement('p');
-    resultParagraph.innerHTML += '<pre>' + result + '</pre>';
+		newOutput.appendChild(prompt);
 
-    prompt.style.flex = '1 1 0%';
-    prompt.style.marginBottom = '0.75rem';
+		const resultParagraph = document.createElement("p");
+		resultParagraph.innerHTML += "<pre>" + result + "</pre>";
 
-    newOutput.style.display = 'flex';
-    newOutput.style.flexDirection = 'column';
-    newOutput.style.flex = '1 1 0%';
-    newOutput.style.marginBottom = '0.75rem';
-    newOutput.appendChild(resultParagraph);
+		prompt.style.flex = "1 1 0%";
 
-    history.appendChild(newOutput);
-  }
+		newOutput.style.display = "flex";
+		newOutput.style.flexDirection = "column";
+		newOutput.style.flex = "1 1 0%";
+		newOutput.appendChild(resultParagraph);
 
-  function moveCaret(caret: HTMLSpanElement, input: string) {
-    caret.style.marginLeft = `${0.6 * (input.length % 40)}rem`;
-  }
+		$history.appendChild(newOutput);
+	}
 
-  input.onbeforeinput = (e) => {
-    // Prevent from inserting more than 39 characters into the command prompt
-    if (input.value.length + (e.data?.length ?? 0) >= 39) e.preventDefault();
-  };
+	function moveCaret(caret: HTMLSpanElement, input: string) {
+		caret.style.marginLeft = `${0.6 * (input.length % 40)}rem`;
+	}
 
-  input.onkeydown = (e) => {
-    switch (e.key) {
-      case 'Enter':
-        e.preventDefault();
+	$input.onbeforeinput = (e) => {
+		// Prevent from inserting more than 39 characters into the command prompt
+		if ($input.value.length + (e.data?.length ?? 0) >= 39) e.preventDefault();
+	};
 
-        if (input.value.toLocaleLowerCase().trim() === 'clear')
-          history.innerHTML = '';
-        else printOutput(input.value.trim().toLowerCase());
+	$input.onkeydown = (e) => {
+		switch (e.key) {
+			case "Enter":
+				e.preventDefault();
 
-        clearTextArea(input);
-        predictionBox.innerText = '';
-        moveCaret(caret, '');
+				if ($input.value.toLocaleLowerCase().trim() === "clear")
+					$history.innerHTML = "";
+				else printOutput($input.value.trim().toLowerCase());
 
-        window.scrollTo(0, document.body.scrollHeight);
-        break;
+				clearTextArea($input);
+				$predictionBox.innerText = "";
+				moveCaret($caret, "");
 
-      case 'Tab':
-        e.preventDefault();
+				window.scrollTo(0, document.body.scrollHeight);
+				break;
 
-        if (predictionBox.innerText.length !== 0)
-          input.value = predictionBox.innerText;
+			case "Tab":
+				e.preventDefault();
 
-        moveCaret(caret, input.value);
-        break;
-    }
-  };
+				if ($predictionBox.innerText.length !== 0)
+					$input.value = $predictionBox.innerText;
 
-  input.oninput = (e) => {
-    const isTextAreaEmpty = input.value.length <= 1;
+				moveCaret($caret, $input.value);
+				break;
+		}
+	};
 
-    if (isTextAreaEmpty) predictionBox.innerText = '';
-    else
-      predictionBox.innerText = predictCommand(
-        input.value.trim().toLowerCase(),
-      );
+	$input.oninput = () => {
+		const isTextAreaEmpty = $input.value.length <= 1;
 
-    moveCaret(caret, input.value);
-  };
+		if (isTextAreaEmpty) $predictionBox.innerText = "";
+		else
+			$predictionBox.innerText = predictCommand(
+				$input.value.trim().toLowerCase(),
+			);
+
+		moveCaret($caret, $input.value);
+	};
 </script>
