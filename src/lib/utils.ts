@@ -22,7 +22,7 @@ export function parseBlogPosts(posts: CollectionEntry<"blog">[]) {
 	return posts
 		.map(
 			({ id, data }) =>
-				`.rw-r--r-- hubertkowalski staff ${data.publishDate.toLocaleDateString()} <a href="/blog/${id}">${id}</a>`,
+				`.rw-r--r-- hubertkowalski staff ${data.pubDate.toLocaleDateString()} <a href="/blog/${id}">${id}</a>`,
 		)
 		.join("\n");
 }
