@@ -80,7 +80,6 @@ It's also important that as we build bigger and bigger systems we want simple ru
 - patterns
 - SOLID
 - dependency injection
-- Agile
 - text-driven-development
 
 they were introduced to improve OOP. But to me, all they are are band-aids that were applied to compensate for the fact that the original vision of OOP has never panned out and every few years there is a new ideology in town about how we actually do OOP fr fr this time.
