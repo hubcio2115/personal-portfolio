@@ -1,6 +1,7 @@
 ---
 title: "Is OOP Evil?"
-publishDate: 2023-11-30
+pubDate: 2023-11-30
+description: "A short rant about why in my opinion OOP is bad."
 readingTime: 8
 ---
 
