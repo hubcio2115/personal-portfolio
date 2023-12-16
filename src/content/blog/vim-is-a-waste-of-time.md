@@ -15,7 +15,7 @@ In my third semester, YouTube decided to recommend this video series from this u
 
 He walks you through the basics of Vim the editor. How to move in it, how to quit it(!), what are the quirks of it and why you might want to learn it. I was hooked. Before I had only used Vi in my operating systems classes in technician school where we edited config files in it. I forgot about it since then.
 
-My eyes were opened. I was ecstatic. Excitement flowed through my brain. I watched the entire series. Copy-pasted his entire base config. But that was it. He didn't say anything about how to set up code completion, snippets, LSP, and other useful things you'd want. So I started digging. A couple of hours passed, but nothing was working, I was really confused, and I gave up. Since It was also the time of my exams, I pushed it aside to come back to it in the future.
+My eyes were opened. I was ecstatic. Excitement flowed through my brain. I watched the entire series. Copy-pasted his entire base config. But that was it. He didn't say anything about how to set up code completion, snippets, LSP, and other useful things you'd want. So I started digging. A couple of hours passed, but nothing was working, I was really confused, and I gave up. Since it was also the time of my exams, I pushed it aside to come back to it in the future.
 
 But my struggles were not in vain. With a bitter taste, I installed the Vim extension in V\*Code. Content with it I continued to do programming!
 
