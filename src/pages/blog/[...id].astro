@@ -1,5 +1,5 @@
 ---
-import Layout from "@layouts/Layout.astro";
+import RootLayout from "@layouts/RootLayout.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -20,9 +20,9 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Layout title={id}>
+<RootLayout title={id}>
 	<div
-		class="prose prose-gruvbox mx-auto max-w-[650px] px-2 pb-10 pt-5 dark:prose-invert sm:px-0"
+		class="prose mx-auto max-w-[650px] px-2 pb-10 pt-5 dark:prose-invert sm:px-0"
 	>
 		<h1>{post.data.title}</h1>
 
@@ -35,4 +35,4 @@ const { Content } = await post.render();
 			<Content />
 		</div>
 	</div>
-</Layout>
+</RootLayout>
