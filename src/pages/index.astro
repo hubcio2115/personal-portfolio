@@ -1,172 +1,38 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import { PROMPT, CARET_SYMBOL, ASCII_ART } from "~/lib/constants";
+import RootLayout from "@layouts/RootLayout.astro";
+import { Github, Linkedin } from "lucide-astro";
+
+const links = [
+	{
+		uri: "https://github.com/hubcio2115",
+		Icon: Github,
+	},
+	{
+		uri: "https://www.linkedin.com/in/hubert-kowalski-447aaa213/",
+		Icon: Linkedin,
+	},
+];
 ---
 
-<Layout>
-	<main class="flex min-h-screen flex-col p-5">
-		<div>
-			<pre class="mb-5 leading-tight">{ASCII_ART}</pre>
+<RootLayout>
+	<div class="flex min-h-screen flex-col justify-center p-5 md:p-0">
+		<main class="mx-auto mb-96 flex flex-col gap-3">
+			<h1 class="text-3xl font-bold">Hello</h1>
 
-			<p>Welcome to my interactive web terminal.</p>
-
-			<p>For a list of available commands, type 'help'.</p>
-
-			<br />
-
-			<p>
-				You can use autocomplete by pressing 'Tab' when a suggestion appears.
+			<p class="max-w-md text-lg">
+				My name is Hubert Kowalski, I'm a Junior Engineer and an IT geek. I also
+				post articles from time to time
 			</p>
-		</div>
 
-		<div id="history" class="flex max-w-2xl flex-col"></div>
-
-		<div class="flex flex-1 gap-x-2.5 pr-5">
-			<span>{PROMPT}</span>
-
-			<div class="flex flex-1">
-				<textarea
-					name="input"
-					id="input-area"
-					class="flex-1 resize-none bg-gruvbox-100 text-gruvbox-900 caret-transparent outline-none transition-colors duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none dark:bg-gruvbox-900 dark:text-gruvbox-100"
-					autofocus
-					autocomplete="off"></textarea>
-
-				<p id="prediction" class="absolute opacity-25"></p>
-
-				<span
-					id="caret"
-					class="absolute animate-pulse font-bold text-orange-600 opacity-70 dark:text-orange-500"
-					>{CARET_SYMBOL}</span
-				>
+			<div class="flex gap-2">
+				{
+					links.map(({ uri, Icon }) => (
+						<a target="_blank" href={uri}>
+							<Icon />
+						</a>
+					))
+				}
 			</div>
-		</div>
-	</main>
-</Layout>
-
-<script>
-	import { getCollection } from "astro:content";
-	import {
-		COMMANDS,
-		PROMPT,
-		WHOIS_MESSAGE,
-		HELP_MESSAGE,
-		WHOAMI_MESSAGE,
-		PROJECTS_MESSAGE,
-		COMMAND_NOT_FOUND_MESSAGE,
-		SOCIAL_MESSAGE,
-		GITHUB_MESSAGE,
-		type Command,
-	} from "~/lib/constants";
-	import { clearTextArea, toggleTheme, parseBlogPosts } from "~/lib/utils";
-
-	const $input = document.getElementById("input-area") as HTMLTextAreaElement;
-	const $history = document.getElementById("history") as HTMLDivElement;
-	const $predictionBox = document.getElementById(
-		"prediction",
-	) as HTMLParagraphElement;
-	const $caret = document.getElementById("caret") as HTMLSpanElement;
-
-	let theme = localStorage.getItem("theme") as "light" | "dark";
-	const posts = parseBlogPosts(await getCollection("blog"));
-
-	function predictCommand(value: string): Command {
-		return COMMANDS.find((command) => command.startsWith(value)) ?? "";
-	}
-
-	function executeCommand(command: Command) {
-		switch (command) {
-			case "whois":
-				return WHOIS_MESSAGE;
-			case "whoami":
-				return WHOAMI_MESSAGE;
-			case "projects":
-				return PROJECTS_MESSAGE;
-			case "social":
-				return SOCIAL_MESSAGE;
-			case "help":
-				return HELP_MESSAGE;
-			case "github":
-				return GITHUB_MESSAGE;
-			case "theme":
-				theme = toggleTheme(theme);
-				return "";
-			case "blog":
-				return posts;
-			case "":
-				return "";
-			default:
-				return COMMAND_NOT_FOUND_MESSAGE + " " + command;
-		}
-	}
-
-	function printOutput(command: Command) {
-		const result = executeCommand(command);
-
-		const newOutput = document.createElement("div");
-		const prompt = document.createElement("span");
-		prompt.innerText = `${PROMPT} ${command}`;
-
-		newOutput.appendChild(prompt);
-
-		const resultParagraph = document.createElement("p");
-		resultParagraph.innerHTML += "<pre>" + result + "</pre>";
-
-		prompt.style.flex = "1 1 0%";
-
-		newOutput.style.display = "flex";
-		newOutput.style.flexDirection = "column";
-		newOutput.style.flex = "1 1 0%";
-		newOutput.appendChild(resultParagraph);
-
-		$history.appendChild(newOutput);
-	}
-
-	function moveCaret(caret: HTMLSpanElement, input: string) {
-		caret.style.marginLeft = `${0.6 * (input.length % 40)}rem`;
-	}
-
-	$input.onbeforeinput = (e) => {
-		// Prevent from inserting more than 39 characters into the command prompt
-		if ($input.value.length + (e.data?.length ?? 0) >= 39) e.preventDefault();
-	};
-
-	$input.onkeydown = (e) => {
-		switch (e.key) {
-			case "Enter":
-				e.preventDefault();
-
-				if ($input.value.toLocaleLowerCase().trim() === "clear")
-					$history.innerHTML = "";
-				else printOutput($input.value.trim().toLowerCase());
-
-				clearTextArea($input);
-				$predictionBox.innerText = "";
-				moveCaret($caret, "");
-
-				window.scrollTo(0, document.body.scrollHeight);
-				break;
-
-			case "Tab":
-				e.preventDefault();
-
-				if ($predictionBox.innerText.length !== 0)
-					$input.value = $predictionBox.innerText;
-
-				moveCaret($caret, $input.value);
-				break;
-		}
-	};
-
-	$input.oninput = () => {
-		const isTextAreaEmpty = $input.value.length <= 1;
-
-		if (isTextAreaEmpty) $predictionBox.innerText = "";
-		else
-			$predictionBox.innerText = predictCommand(
-				$input.value.trim().toLowerCase(),
-			);
-
-		moveCaret($caret, $input.value);
-	};
-</script>
+		</main>
+	</div>
+</RootLayout>

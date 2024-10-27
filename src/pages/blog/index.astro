@@ -1,0 +1,23 @@
+---
+import RootLayout from "@layouts/RootLayout.astro";
+import { getCollection } from "astro:content";
+
+const blogEntries = await getCollection("blog");
+---
+
+<RootLayout>
+	<div class="flex flex-1 items-center justify-center">
+		<nav
+			class="container mx-auto flex max-w-max flex-col justify-center gap-2 text-left"
+		>
+			{
+				blogEntries.map((post) => (
+					<div>
+						<a href={`/blog/${post.id}`}>{post.data.title}</a>
+						<p>{post.data.description}</p>
+					</div>
+				))
+			}
+		</nav>
+	</div>
+</RootLayout>
