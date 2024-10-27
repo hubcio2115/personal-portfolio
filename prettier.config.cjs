@@ -1,4 +1,6 @@
-/** @type {import("prettier").Config} */
+/** @import { Config } from "prettier" */
+
+/** @type {Config} */
 module.exports = {
 	plugins: [
 		"@trivago/prettier-plugin-sort-imports",
