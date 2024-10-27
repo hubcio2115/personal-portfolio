@@ -1,0 +1,66 @@
+---
+const links = [
+	{
+		label: "Home",
+		uri: "/",
+	},
+	{
+		label: "Blog",
+		uri: "/blog",
+	},
+];
+---
+
+<div class="flex justify-between p-5">
+	<a class="text-3xl font-bold uppercase no-underline" href="/">Kowalski</a>
+
+	<div class="flex gap-4">
+		<nav class="flex items-center gap-2 text-lg">
+			{
+				links.map(({ uri, label }) => (
+					<a href={uri} class="h-min">
+						{label}
+					</a>
+				))
+			}
+		</nav>
+
+		<button id="theme-toggle" class="flex items-center min-w-6"></button>
+	</div>
+</div>
+
+<script>
+	import { setTheme, getTheme } from "../lib/utils.ts";
+
+	let sunSvg =
+		"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXN1biI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIvPjxwYXRoIGQ9Ik0xMiAydjIiLz48cGF0aCBkPSJNMTIgMjB2MiIvPjxwYXRoIGQ9Im00LjkzIDQuOTMgMS40MSAxLjQxIi8+PHBhdGggZD0ibTE3LjY2IDE3LjY2IDEuNDEgMS40MSIvPjxwYXRoIGQ9Ik0yIDEyaDIiLz48cGF0aCBkPSJNMjAgMTJoMiIvPjxwYXRoIGQ9Im02LjM0IDE3LjY2LTEuNDEgMS40MSIvPjxwYXRoIGQ9Im0xOS4wNyA0LjkzLTEuNDEgMS40MSIvPjwvc3ZnPg==";
+
+	sunSvg =
+		"data:image/svg+xml;base64," +
+		btoa(
+			atob(sunSvg.split(",")[1]).replace(/stroke="[^"]*"/, 'stroke="#f4f4f5"'),
+		);
+
+	const sunIcon = document.createElement("img");
+	sunIcon.src = sunSvg;
+
+	const moonIcon = document.createElement("img");
+	moonIcon.src =
+		"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW1vb24iPjxwYXRoIGQ9Ik0xMiAzYTYgNiAwIDAgMCA5IDkgOSA5IDAgMSAxLTktOVoiLz48L3N2Zz4=";
+
+	const themeButton = document.getElementById("theme-toggle");
+	const theme = getTheme();
+
+	if (theme === "dark") themeButton.appendChild(sunIcon);
+	else themeButton.appendChild(moonIcon);
+
+	themeButton.addEventListener("click", () => {
+		themeButton.innerHTML = "";
+		const theme = getTheme();
+
+		if (theme === "dark") themeButton.appendChild(moonIcon);
+		else themeButton.appendChild(sunIcon);
+
+		setTheme(theme === "dark" ? "light" : "dark");
+	});
+</script>
