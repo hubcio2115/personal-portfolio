@@ -8,5 +8,5 @@ export default defineConfig({
 			config: { applyBaseStyles: false },
 		}),
 	],
-  site: "https://personal-portfolio-one-tan.vercel.app/"
+	site: "https://personal-portfolio-one-tan.vercel.app/",
 });

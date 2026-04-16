@@ -20,18 +20,16 @@ const links = [
 			<h1 class="text-3xl font-bold">Hello</h1>
 
 			<p class="max-w-md text-lg">
-				My name is Hubert Kowalski, I'm a Software Engineer and an IT geek. I also
-				post articles from time to time
+				My name is Hubert Kowalski, I'm a Software Engineer and an IT geek. I
+				also post articles from time to time
 			</p>
 
 			<div class="flex gap-2">
-				{
-					links.map(({ uri, Icon }) => (
+				{links.map(({ uri, Icon }) => (
 						<a target="_blank" href={uri}>
 							<Icon />
 						</a>
-					))
-				}
+					))}
 			</div>
 		</main>
 	</div>

@@ -29,10 +29,8 @@ const { Content } = await post.render();
 		<p>published: {post.data.pubDate.toLocaleDateString()}</p>
 		<p>reading time: around {post.data.readingTime} minutes</p>
 
-		<hr />
+		<hr>
 
-		<div class="break-words">
-			<Content />
-		</div>
+		<div class="break-words"><Content /></div>
 	</div>
 </RootLayout>
