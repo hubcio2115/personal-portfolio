@@ -3,16 +3,16 @@ import RootLayout from "@layouts/RootLayout.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
-	const blogEntries = await getCollection("blog");
+  const blogEntries = await getCollection("blog");
 
-	return blogEntries.map((post) => ({
-		params: {
-			id: post.id,
-		},
-		props: {
-			post,
-		},
-	}));
+  return blogEntries.map((post) => ({
+    params: {
+      id: post.id,
+    },
+    props: {
+      post,
+    },
+  }));
 }
 
 const { id } = Astro.params;
@@ -21,16 +21,16 @@ const { Content } = await post.render();
 ---
 
 <RootLayout title={id}>
-	<div
-		class="prose mx-auto max-w-[650px] px-2 pb-10 pt-5 dark:prose-invert sm:px-0"
-	>
-		<h1>{post.data.title}</h1>
+  <div
+    class="prose mx-auto max-w-[650px] px-2 pb-10 pt-5 dark:prose-invert sm:px-0"
+  >
+    <h1>{post.data.title}</h1>
 
-		<p>published: {post.data.pubDate.toLocaleDateString()}</p>
-		<p>reading time: around {post.data.readingTime} minutes</p>
+    <p>published: {post.data.pubDate.toLocaleDateString()}</p>
+    <p>reading time: around {post.data.readingTime} minutes</p>
 
-		<hr>
+    <hr>
 
-		<div class="break-words"><Content /></div>
-	</div>
+    <div class="break-words"><Content /></div>
+  </div>
 </RootLayout>

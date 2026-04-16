@@ -3,34 +3,34 @@ import RootLayout from "@layouts/RootLayout.astro";
 import { Github, Linkedin } from "lucide-astro";
 
 const links = [
-	{
-		uri: "https://github.com/hubcio2115",
-		Icon: Github,
-	},
-	{
-		uri: "https://www.linkedin.com/in/hubert-kowalski-447aaa213/",
-		Icon: Linkedin,
-	},
+  {
+    uri: "https://github.com/hubcio2115",
+    Icon: Github,
+  },
+  {
+    uri: "https://www.linkedin.com/in/hubert-kowalski-447aaa213/",
+    Icon: Linkedin,
+  },
 ];
 ---
 
 <RootLayout>
-	<div class="flex min-h-screen flex-col justify-center p-5 md:p-0">
-		<main class="mx-auto mb-96 flex flex-col gap-3">
-			<h1 class="text-3xl font-bold">Hello</h1>
+  <div class="flex min-h-screen flex-col justify-center p-5 md:p-0">
+    <main class="mx-auto mb-96 flex flex-col gap-3">
+      <h1 class="text-3xl font-bold">Hello</h1>
 
-			<p class="max-w-md text-lg">
-				My name is Hubert Kowalski, I'm a Software Engineer and an IT geek. I
-				also post articles from time to time
-			</p>
+      <p class="max-w-md text-lg">
+        My name is Hubert Kowalski, I'm a Software Engineer and an IT geek. I
+        also post articles from time to time
+      </p>
 
-			<div class="flex gap-2">
-				{links.map(({ uri, Icon }) => (
-						<a target="_blank" href={uri}>
+      <div class="flex gap-2">
+        {links.map(({ uri, Icon }) => (
+						<a target="_blank" rel="noreferrer" href={uri}>
 							<Icon />
 						</a>
 					))}
-			</div>
-		</main>
-	</div>
+      </div>
+    </main>
+  </div>
 </RootLayout>

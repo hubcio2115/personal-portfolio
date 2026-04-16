@@ -8,9 +8,13 @@
   "files": {
     "includes": ["**", "!node_modules", "!dist", "!public"]
   },
+  "linter": {
+    "enabled": false
+  },
   "formatter": {
     "enabled": true,
-    "indentStyle": "tab",
+    "indentStyle": "space",
+    "indentWidth": 2,
     "lineWidth": 80
   },
   "javascript": {

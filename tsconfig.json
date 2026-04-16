@@ -1,17 +1,17 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "astro/tsconfigs/strictest",
-	"compilerOptions": {
-		"plugins": [
-			{
-				"name": "@astrojs/ts-plugin"
-			}
-		],
-		"verbatimModuleSyntax": true,
-		"paths": {
-			"@components/*": ["./src/components/*"],
-			"@layouts/*": ["./src/layouts/*"],
-			"~/*": ["./src/*"]
-		}
-	}
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "astro/tsconfigs/strictest",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin",
+      },
+    ],
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "~/*": ["./src/*"],
+    },
+  },
 }
