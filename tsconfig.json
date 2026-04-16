@@ -4,14 +4,14 @@
   "compilerOptions": {
     "plugins": [
       {
-        "name": "@astrojs/ts-plugin",
-      },
+        "name": "@astrojs/ts-plugin"
+      }
     ],
     "verbatimModuleSyntax": true,
     "paths": {
       "@components/*": ["./src/components/*"],
       "@layouts/*": ["./src/layouts/*"],
-      "~/*": ["./src/*"],
-    },
-  },
+      "~/*": ["./src/*"]
+    }
+  }
 }
