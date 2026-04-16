@@ -1,10 +1,11 @@
 ---
 import Navbar from "@components/Navbar.astro";
+import "../styles/global.css";
 
 const { title } = Astro.props;
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -52,15 +53,3 @@ const { title } = Astro.props;
     <slot />
   </body>
 </html>
-
-<style is:global>
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
-@custom-variant dark (&:where(.dark, .dark *));
-
-@layer base {
-  a {
-    @apply underline;
-  }
-}
-</style>
