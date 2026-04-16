@@ -31,5 +31,11 @@
     "formatter": {
       "enabled": true
     }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    }
   }
 }

@@ -30,16 +30,16 @@ const { title } = Astro.props;
 	</body>
 </html>
 
-<style lang="scss" is:global>
-	@tailwind base;
-	@layer base {
-		a {
-			@apply underline;
-		}
-	}
+<style is:global>
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
-	@tailwind components;
-	@tailwind utilities;
+@layer base {
+	a {
+		@apply underline;
+	}
+}
 </style>
 
 <script is:inline>
