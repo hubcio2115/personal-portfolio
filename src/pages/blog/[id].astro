@@ -1,23 +1,27 @@
 ---
+import { type CollectionEntry, getCollection, render } from "astro:content";
 import RootLayout from "@layouts/RootLayout.astro";
-import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog");
 
-  return blogEntries.map((post) => ({
+  return blogEntries.map((post: CollectionEntry<"blog">) => ({
     params: {
       id: post.id,
-    },
-    props: {
-      post,
     },
   }));
 }
 
 const { id } = Astro.params;
-const { post } = Astro.props;
-const { Content } = await post.render();
+const post = (await getCollection("blog")).find(
+  (entry: CollectionEntry<"blog">) => entry.id === id,
+);
+
+if (!post) {
+  throw new Error(`Blog post not found for id: ${id}`);
+}
+
+const { Content } = await render(post);
 ---
 
 <RootLayout title={id}>
