@@ -1,5 +1,6 @@
 import astro from "eslint-plugin-astro";
 import tseslint from "@typescript-eslint/eslint-plugin";
+import prettier from "eslint-config-prettier";
 
 export default [
   {
@@ -19,4 +20,5 @@ export default [
       "@typescript-eslint/triple-slash-reference": "off",
     },
   },
+  prettier,
 ];
