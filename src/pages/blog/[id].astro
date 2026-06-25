@@ -26,15 +26,17 @@ const { Content } = await render(post);
 
 <RootLayout title={id}>
   <div
-    class="prose mx-auto max-w-[650px] px-2 pb-10 pt-5 dark:prose-invert sm:px-0"
+    class="mx-auto prose max-w-162.5 px-2 pt-5 pb-10 sm:px-0 dark:prose-invert"
   >
     <h1>{post.data.title}</h1>
 
     <p>published: {post.data.pubDate.toLocaleDateString()}</p>
     <p>reading time: around {post.data.readingTime} minutes</p>
 
-    <hr>
+    <hr />
 
-    <div class="break-words"><Content /></div>
+    <div class="wrap-break-word">
+      <Content />
+    </div>
   </div>
 </RootLayout>

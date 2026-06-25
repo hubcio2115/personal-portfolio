@@ -5,43 +5,43 @@ import "../styles/global.css";
 const { title } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <script is:inline>
-    (() => {
-      const storedTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      const theme = storedTheme ?? (prefersDark ? "dark" : "light");
-      const isDark = theme === "dark";
+      (() => {
+        const storedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const theme = storedTheme ?? (prefersDark ? "dark" : "light");
+        const isDark = theme === "dark";
 
-      document.documentElement.classList.toggle("dark", isDark);
-      document.documentElement.classList.toggle("light", !isDark);
-      document.documentElement.style.colorScheme = theme;
-    })();
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+        document.documentElement.style.colorScheme = theme;
+      })();
     </script>
     <style is:inline>
-    html {
-      background-color: #f4f4f5;
-    }
+      html {
+        background-color: #f4f4f5;
+      }
 
-    html.dark {
-      background-color: #18181b;
-    }
+      html.dark {
+        background-color: #18181b;
+      }
     </style>
     <meta
       name="description"
       content="My portfolio website, I'm Hubert Kowalski"
-    >
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale-1"
-    >
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <meta name="generator" content={Astro.generator}>
+    />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
     <title>{title ?? "Hubert Kowalski - Portfolio"}</title>
   </head>
 

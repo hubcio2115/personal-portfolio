@@ -29,11 +29,13 @@ const links = [
       </p>
 
       <div class="flex gap-2">
-        {links.map(({ uri, Icon }) => (
-						<a target="_blank" rel="noreferrer" href={uri}>
-							<Icon />
-						</a>
-					))}
+        {
+          links.map(({ uri, Icon }) => (
+            <a target="_blank" rel="noreferrer" href={uri}>
+              <Icon />
+            </a>
+          ))
+        }
       </div>
     </main>
   </div>
