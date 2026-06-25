@@ -6,7 +6,7 @@ export const GET: APIRoute = async (context) => {
   const posts = await getCollection("blog");
 
   return rss({
-    title: "Hubert Kowaslski Personal Blog",
+    title: "Hubert Kowalski Personal Blog",
     description:
       "A collection of my personal thoughts about everything web dev.",
     /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
