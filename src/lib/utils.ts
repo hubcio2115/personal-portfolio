@@ -10,16 +10,20 @@ export function getTheme() {
 }
 
 export function setTheme(theme: "light" | "dark") {
-  if (theme === "dark") {
-    document.documentElement.classList.add("dark");
-    document.documentElement.classList.remove("light");
-    document.documentElement.style.colorScheme = "dark";
-    localStorage.setItem("theme", "dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-    document.documentElement.classList.add("light");
-    document.documentElement.style.colorScheme = "light";
-    localStorage.setItem("theme", "light");
+  switch (theme) {
+    case "light":
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+      document.documentElement.style.colorScheme = "light";
+      localStorage.setItem("theme", "light");
+      break;
+
+    case "dark":
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+      document.documentElement.style.colorScheme = "dark";
+      localStorage.setItem("theme", "dark");
+      break;
   }
 }
 
