@@ -2,6 +2,8 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import RootLayout from "@layouts/RootLayout.astro";
 
+type BlogEntry = CollectionEntry<"blog">;
+
 const blogEntries = await getCollection("blog");
 ---
 
@@ -10,12 +12,14 @@ const blogEntries = await getCollection("blog");
     <nav
       class="container mx-auto flex max-w-max flex-col justify-center gap-2 text-left"
     >
-      {blogEntries.map((post: CollectionEntry<"blog">) => (
-					<div>
+      {
+        blogEntries.map((post: BlogEntry) => (
+          <div>
             <a href={`/blog/${post.id}`}>{post.data.title}</a>
-						<p>{post.data.description}</p>
-					</div>
-				))}
+            <p>{post.data.description}</p>
+          </div>
+        ))
+      }
     </nav>
   </div>
 </RootLayout>
