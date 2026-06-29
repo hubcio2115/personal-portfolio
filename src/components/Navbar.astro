@@ -55,15 +55,21 @@ const links = [
   if (themeButton) {
     const theme = getTheme();
 
-    if (theme === "dark") themeButton.appendChild(sunIcon);
-    else themeButton.appendChild(moonIcon);
+    if (theme === "dark") {
+      themeButton.appendChild(sunIcon);
+    } else {
+      themeButton.appendChild(moonIcon);
+    }
 
     themeButton.addEventListener("click", () => {
       themeButton.innerHTML = "";
       const theme = getTheme();
 
-      if (theme === "dark") themeButton.appendChild(moonIcon);
-      else themeButton.appendChild(sunIcon);
+      if (theme === "dark") {
+        themeButton.appendChild(moonIcon);
+      } else {
+        themeButton.appendChild(sunIcon);
+      }
 
       setTheme(theme === "dark" ? "light" : "dark");
     });
